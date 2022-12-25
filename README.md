@@ -1,5 +1,5 @@
 # Reddit Video Maker Bot 🎥
-
+### fork of reddit video maker bot to implement long videos with 16:9 format
 All done WITHOUT video editing or asset compiling. Just pure ✨programming magic✨.
 
 Created by Lewis Menelaws & [TMRRW](https://tmrrwinc.ca)
@@ -62,7 +62,7 @@ If you want to read more detailed guide about the bot, please refer to the [docu
 
 ## Video
 
-https://user-images.githubusercontent.com/66544866/173453972-6526e4e6-c6ef-41c5-ab40-5d275e724e7c.mp4
+https://www.youtube.com/watch?v=Jd7dOz0ZHSc&ab_channel=Redditcrawler
 
 ## Contributing & Ways to improve 📈
 
