@@ -108,8 +108,16 @@ def get_subreddit_threads(POST_ID: str):
     content["thread_post"] = submission.selftext
     content["thread_id"] = submission.id
     content["comments"] = []
-
-    for top_level_comment in submission.comments:
+    #https://stackoverflow.com/questions/36366388/get-all-comments-from-a-specific-reddit-thread-in-python
+    comments = []
+    print("(might take a while, it's not frozen) loading comments...")
+    submission.comments.replace_more(limit = 100) #how much comments should we parse
+    for comment in submission.comments.list():
+        comments.append(comment)
+    comments = comments[:100]
+    print("comments parsed, comments parsed: {}".format(len(comments)))
+    print(comments)
+    for top_level_comment in comments:#submission.comments:
         if isinstance(top_level_comment, MoreComments):
             continue
         if top_level_comment.body in ["[removed]", "[deleted]"]:
@@ -133,4 +141,5 @@ def get_subreddit_threads(POST_ID: str):
                         }
                     )
     print_substep("Received subreddit threads Successfully.", style="bold green")
+
     return content

@@ -20,7 +20,7 @@ from utils.videos import save_data
 from utils import settings
 
 console = Console()
-W, H = 1080, 1920
+W, H = 1920, 1080
 
 
 def name_normalize(name: str) -> str:
@@ -68,12 +68,13 @@ def make_final_video(
     VideoFileClip.reH = lambda clip: clip.resize(width=H)
     opacity = settings.config["settings"]["opacity"]
     transition = settings.config["settings"]["transition"]
-    background_clip = (
-        VideoFileClip(f"assets/temp/{id}/background.mp4")
-        .without_audio()
-        .resize(height=H)
-        .crop(x1=1166.6, y1=0, x2=2246.6, y2=1920)
-    )
+    background_clip = VideoFileClip(f"assets/temp/{id}/background.mp4")
+    #(
+    #    VideoFileClip(f"assets/temp/{id}/background.mp4")
+    #    .without_audio()
+    #    .resize(height=H)
+    #    .crop(x1=1166.6, y1=0, x2=2246.6, y2=1920)
+    #)
 
     # Gather all audio clips
     audio_clips = [AudioFileClip(f"assets/temp/{id}/mp3/{i}.mp3") for i in range(number_of_clips)]
@@ -91,7 +92,7 @@ def make_final_video(
         0,
         ImageClip(f"assets/temp/{id}/png/title.png")
         .set_duration(audio_clips[0].duration)
-        .resize(width=W - 100)
+        .resize(width=W - 400)
         .set_opacity(new_opacity)
         .crossfadein(new_transition)
         .crossfadeout(new_transition),
@@ -101,7 +102,7 @@ def make_final_video(
         image_clips.append(
             ImageClip(f"assets/temp/{id}/png/comment_{i}.png")
             .set_duration(audio_clips[i + 1].duration)
-            .resize(width=W - 100)
+            .resize(width=W - 400)
             .set_opacity(new_opacity)
             .crossfadein(new_transition)
             .crossfadeout(new_transition)
@@ -140,16 +141,16 @@ def make_final_video(
     #    # lowered_audio = audio_background.multiply_volume( # todo get this to work
     #    #    VOLUME_MULTIPLIER)  # lower volume by background_audio_volume, use with fx
     #    final.set_audio(final_audio)
-    final = Video(final).add_watermark(
-        text=f"Background credit: {background_config[2]}", opacity=0.4, redditid=reddit_obj
-     )
+    #final = Video(final).add_watermark(
+    #    text=f"Background credit: {background_config[2]}", opacity=0.4, redditid=reddit_obj
+    # )
     final.write_videofile(
         f"assets/temp/{id}/temp.mp4",
         fps=30,
         audio_codec="aac",
         audio_bitrate="192k",
         verbose=False,
-        threads=multiprocessing.cpu_count(),
+        threads=32#multiprocessing.cpu_count(),
     )
     ffmpeg_extract_subclip(
         f"assets/temp/{id}/temp.mp4",
